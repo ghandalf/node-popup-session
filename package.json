@@ -2,10 +2,7 @@
   "name": "node-popup-session",
   "version": "1.0.0",
   "description": "Uses to create small project to test popup session extention",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ghandalf/node-popup-session.git"
@@ -22,7 +19,24 @@
   },
   "homepage": "https://github.com/ghandalf/node-popup-session#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.17.0",
+    "nodemon": "^1.19.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.2",
+    "mocha": "^6.1.4",
+    "supertest": "^4.0.2",
+    "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   },
-  "devDependencies": {}
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+      "target": "ESNEXT",
+      // If you are writing an application that will run purely in Node.js, you should be using "commonjs" modules, not AMD modules, when you compile your TypeScript files.
+      // If you are writing an application that will run both in Node.js and in the browser, you should be using "umd" modules, not AMD modules, when you compile your TypeScript files.
+      // So, you need to change your configuration object you pass to the Gulp TypeScript compiler to use { module: "commonjs" } or { module: "umd" }.
+      "module": "umd",
+      "lib": ["esnext", "es6", "dom"],
+      "declaration": true,
+      "declarationMap": true,
+      "sourceMap": true,
+      "outDir": "./dist",
+      "rootDir": "./src/main/typescript/",
+      "strict": true,
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "noImplicitReturns": true,
+      "moduleResolution": "node", 
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "baseUrl": ".",
+      "typeRoots": [
+        "./node_modules/@types",
+        "./@types"
+        ]
+    },
+    "files": [
+      "./node_modules/@types/mocha/index.d.ts",
+      // "./node_modules/@types/node/index.d.ts"
+    ],
+    "include": [
+      "./src/main/typescript/**/*",
+      "./src/main/typescript/**/*.ts"
+    ],
+    "exclude": [
+      // "main.*",
+      // "src/main.*",
+      "node_modules"
+    ]
+  }
