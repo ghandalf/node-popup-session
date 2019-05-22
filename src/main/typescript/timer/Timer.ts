@@ -21,7 +21,7 @@ export class Timer {
     }
 
     public countDown() {
-        
+
         const interval = setInterval(() => {
             // tslint:disable-next-line:no-console
             console.log("counter: " + this.counter);
@@ -32,7 +32,7 @@ export class Timer {
                 // tslint:disable-next-line:no-console
                 console.log("WARNING open popup!!! counter: " + this.counter);
             }
-            if (this.counter == END_SESSION) { 
+            if (this.counter == END_SESSION) {
                 clearInterval(interval);
             }
 
