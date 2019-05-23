@@ -2,7 +2,7 @@ export declare class Main {
     private timer;
     private opts;
     constructor();
-    private sleep;
     main(): void;
+    private sleep;
 }
 //# sourceMappingURL=Main.d.ts.map

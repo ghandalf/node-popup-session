@@ -1,7 +1,7 @@
 import stdio from "stdio";
 
-import { timingSafeEqual } from "crypto";
-import { resolve } from "url";
+// import { timingSafeEqual } from "crypto";
+// import { resolve } from "url";
 import { Timer } from "./timer/Timer";
 
 export class Main {
@@ -20,7 +20,9 @@ export class Main {
         if (this.opts.timer) {
             // tslint:disable-next-line:no-console
             console.log("Begin");
-            this.timer.countDown();
+            const timeout = 20;
+            const threshold = 2;
+            this.timer.startSessionTimer(timeout, threshold);
             this.timer.resetCounter(14);
             if (this.timer.getCounter() > 12) {
                 this.timer.resetCounter(10);

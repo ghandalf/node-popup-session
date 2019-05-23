@@ -18,6 +18,20 @@
         app.get("/timeout", (request, response) => {
             response.render("timeout");
         });
+        // Basic test
+        app.get("/basic", (request, response) => {
+            response.render("pages/basic");
+        });
+        // Keep Alive
+        app.get("/keep-alive", (request, response) => {
+            response.render("pages/keep-alive");
+        });
+        app.get("/locked", (request, response) => {
+            response.render("pages/locked");
+        });
+        app.get("/login", (request, response) => {
+            response.render("pages/login");
+        });
     };
 });
 //# sourceMappingURL=index.js.map

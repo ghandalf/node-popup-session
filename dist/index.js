@@ -30,6 +30,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     const app = express_1.default();
     app.set("views", path_1.default.join(__dirname, "views"));
     app.set("view engine", "ejs");
+    // set path for static assets
+    app.use(express_1.default.static(path_1.default.join(__dirname, "javascript")));
     routes.register(app);
     app.listen(port, () => {
         // tslint:disable-next-line:no-console

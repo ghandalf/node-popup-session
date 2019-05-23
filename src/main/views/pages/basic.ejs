@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap-session-timeout - Basic Usage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bootstrap-session-timeout</h1>
+        <h2>Basic Usage</h2>
+        <hr>
+        <p>Shows the warning dialog after 3 seconds. If user takes no action (interacts with the page in any way), browser is redirected to redirUrl. On any user action (mouse, keyboard or touch) the timeout timer is reset. </p>
+
+        <pre>
+            $.sessionTimeout({
+                keepAliveUrl: '/keepAlive',
+                logoutUrl: '/login',
+                redirUrl: '/locked',
+                warnAfter: 3000,
+                redirAfter: 10000
+            });
+        </pre>
+
+        <a class="btn btn-primary" href="/" role="button">Back to Demo Index</a>
+
+    </div>
+    <% include ../scripts/scripts %>
+
+    <script>
+    $.sessionTimeout({
+        keepAliveUrl: '/keepAlive',
+        logoutUrl: '/login',
+        redirUrl: '/locked',
+        warnAfter: 3000,
+        redirAfter: 10000
+    });
+    </script>
+</body>
+</html>

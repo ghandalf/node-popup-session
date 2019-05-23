@@ -13,36 +13,61 @@ const END_SESSION = 0;
 
 export class Timer {
     private counter: number;
-    // private sessionTimeout: number;
-    // private threshold: number;
+    private sessionTimeout: number;
+    private threshold: number;
+    private warning: number;
 
     constructor() {
         this.counter = SESSION_TIME_LIMIT;
+        this.sessionTimeout = SESSION_TIME_LIMIT;
+        this.threshold = THRESHOLD;
+        this.warning = WARNING;
     }
 
-    public countDown() {
+    public getSessionTimeout(): number {
+        return this.sessionTimeout;
+    }
+    public setSessionTimeout(value: number) {
+        this.sessionTimeout = value;
+    }
+    public getThreshold(): number {
+        return this.threshold;
+    }
+    public setThreshold(value: number) {
+        this.threshold = value;
+    }
+    public getWarning(): number {
+        return this.warning;
+    }
+
+    public startSessionTimer(sessionTimeout: number, threshold: number) {
+        this.sessionTimeout = sessionTimeout;
+        this.threshold = threshold;
+        this.warning = sessionTimeout - threshold;
 
         const interval = setInterval(() => {
             // tslint:disable-next-line:no-console
-            console.log("counter: " + this.counter);
-            this.counter--;
+            console.log("counter: " + this.sessionTimeout);
+            this.sessionTimeout--;
 
-            if ( this.counter == WARNING ) {
+            if ( this.sessionTimeout === this.warning ) {
                 // clearInterval();
                 // tslint:disable-next-line:no-console
-                console.log("WARNING open popup!!! counter: " + this.counter);
+                console.log("WARNING open popup!!! counter: " + this.sessionTimeout);
             }
-            if (this.counter == END_SESSION) {
+            if (this.sessionTimeout === END_SESSION) {
                 clearInterval(interval);
+                // tslint:disable-next-line:no-console
+                console.log("Session timeout reached counter: " + this.sessionTimeout);
             }
 
         }, MILISECONDS);
     }
 
-    public resetCounter(value: number) {
+    public resetCounter(value: number = SESSION_TIME_LIMIT) {
         // tslint:disable-next-line:no-console
         console.log("Reset counter: " + this.counter + " to " + value);
-        this.counter = SESSION_TIME_LIMIT;
+        this.counter = value;
     }
 
     public getCounter(): number {
