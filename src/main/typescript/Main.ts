@@ -2,30 +2,30 @@ import stdio from "stdio";
 
 // import { timingSafeEqual } from "crypto";
 // import { resolve } from "url";
-import { Timer } from "./timer/Timer";
+import { SessionTimeout } from "./timer/SessionTimeout";
 
 export class Main {
 
-    private timer: Timer;
+    private sessionTimeout: SessionTimeout;
 
     private opts = stdio.getopt({
-        timer: { key: "t", args: 0, description: "Test Timer countDown" },
+        sessionTimeout: { key: "t", args: 0, description: "Test SessionTimeout countDown" },
     });
 
     constructor() {
-        this.timer = new Timer();
+        this.sessionTimeout = new SessionTimeout();
     }
 
     public main(): void {
-        if (this.opts.timer) {
+        if (this.opts.sessionTimeout) {
             // tslint:disable-next-line:no-console
             console.log("Begin");
             const timeout = 20;
             const threshold = 2;
-            this.timer.startSessionTimer(timeout, threshold);
-            this.timer.resetCounter(14);
-            if (this.timer.getCounter() > 12) {
-                this.timer.resetCounter(10);
+            this.sessionTimeout.startSessionTimer(timeout, threshold);
+            this.sessionTimeout.resetCounter(14);
+            if (this.sessionTimeout.getCounter() > 12) {
+                this.sessionTimeout.resetCounter(10);
             }
         }
     }

@@ -11,7 +11,7 @@ const THRESHOLD: number = 4; // Warning at 16 min
 const WARNING: number = SESSION_TIME_LIMIT - THRESHOLD;
 const END_SESSION = 0;
 
-export class Timer {
+export class SessionTimeout {
     private counter: number;
     private sessionTimeout: number;
     private threshold: number;
