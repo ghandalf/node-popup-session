@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap-session-timeout - Basic Usage</title>
+    <title>Bootstrap-session-timeout - Countdown Bar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -13,31 +13,35 @@
 <body>
     <div class="container">
         <h1>Bootstrap-session-timeout</h1>
-        <h2>Basic Usage</h2>
+        <h2>Countdown Timer</h2>
         <hr>
-        <p>Shows the warning dialog after 3 seconds. If user takes no action (interacts with the page in any way), browser is redirected to redirUrl. On any user action (mouse, keyboard or touch) the timeout timer is reset. </p>
+        <p>Shows the warning dialog with countdown bar after 3 seconds. If user takes no action (interacts with the page in any way), browser is redirected to redirUrl. On any user action (mouse, keyboard or touch) the timeout timer as well as the countdown
+            timer are reset (visible if you don't close the warning dialog). </p>
+        <p>Note: you can also combine the countdown bar with a <a href="/countdown-timer">countdown timer message</a>.</p>
 
         <pre>
             $.sessionTimeout({
-                keepAliveUrl: 'keepAlive',
+                keepAliveUrl: 'keep-alive',
                 logoutUrl: '/login',
                 redirUrl: '/locked',
                 warnAfter: 3000,
-                redirAfter: 10000
+                redirAfter: 10000,
+                countdownBar: true
             });
         </pre>
 
-        <a class="btn btn-primary" href="/" role="button">Back to Demo Index</a>
+        <a class="btn" href="/"><i class="material-icons right">arrow_backward</i>Back to Home page</a>
         <% include ../scripts/scripts %>
     </div>
 
     <script>
         $.sessionTimeout({
-            keepAliveUrl: 'keepAlive',
+            keepAliveUrl: 'keep-alive',
             logoutUrl: '/login',
             redirUrl: '/locked',
             warnAfter: 3000,
-            redirAfter: 10000
+            redirAfter: 10000,
+            countdownBar: true
         });
     </script>
 </body>

@@ -8,7 +8,7 @@ export const register = (app: express.Application) => {
 
     // Once the popup is close
     app.get( "/timeout", (request: any, response: any) => {
-        response.render( "timeout" );
+        response.render( "pages/timeout" );
     });
     // Basic test
     app.get( "/basic", (request: any, response: any) => {
@@ -25,6 +25,18 @@ export const register = (app: express.Application) => {
 
     app.get( "/login", (request: any, response: any) => {
         response.render( "pages/login" );
+    });
+
+    app.get( "/countdown-bar", (request: any, response: any) => {
+        response.render( "pages/countdown-bar" );
+    });
+
+    app.get( "/countdown-timer", (request: any, response: any) => {
+        response.render( "pages/countdown-timer" );
+    });
+
+    app.get( "/countdown-callback", (request: any, response: any) => {
+        response.render( "pages/countdown-callback" );
     });
 
 };
