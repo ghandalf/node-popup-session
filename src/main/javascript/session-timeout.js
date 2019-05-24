@@ -39,18 +39,14 @@
             console.error('Session-timeout plugin is miss-configured. Option "redirAfter" must be equal or greater than "warnAfter".');
             return false;
         }
-
+        var warning_div = document.getElementById("warning");
         // Unless user set his own callback function, prepare bootstrap modal elements and events
         if (typeof opt.onWarn !== 'function') {
             // If opt.countdownMessage is defined add a coundown timer message to the modal dialog
             var countdownMessage = opt.countdownMessage ?
                 '<p>' + opt.countdownMessage.replace(/{timer}/g, '<span class="countdown-holder"></span>') + '</p>' : '';
             var coundownBarHtml = opt.countdownBar ?
-                '<div class="progress"> \
-                  <div class="progress-bar progress-bar-striped countdown-bar active" role="progressbar" style="min-width: 15px; width: 100%;"> \
-                    <span class="countdown-holder"></span> \
-                  </div> \
-                </div>' : '';
+                $(warning_div).load('partials/progress.html') : '';
 
             // Create timeout warning dialog
             $('body').append('<div class="modal fade" id="session-timeout-dialog"> \

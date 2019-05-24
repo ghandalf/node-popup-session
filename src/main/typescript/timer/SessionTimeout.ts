@@ -16,6 +16,7 @@ export class SessionTimeout {
     private redirectUrl: string;
     private keepAliveUrl: string;
     private logoutUrl: string;
+    private continue: boolean;
 
     constructor() {
         this.countdown = REDIRECT_AFTER;
@@ -24,6 +25,7 @@ export class SessionTimeout {
         this.redirectUrl = "";
         this.keepAliveUrl = "";
         this.logoutUrl = "";
+        this.continue = false;
     }
 
     public getCountdown(): number {
@@ -60,16 +62,22 @@ export class SessionTimeout {
     public setLogoutUrl(value: string) {
         this.logoutUrl = value;
     }
+    public getContinue(): boolean {
+        return this.continue;
+    }
+    public setContinue(value: boolean) {
+        this.continue = value;
+    }
 
     public startSessionTimer(redirectAfter: number = REDIRECT_AFTER, warnAfter: number = WARN_AFTER,
-                             redirectUrl: string, keepAliveUrl: string, logoutUrl: string) {
-
-        // if ( ! this.areValided(redirectAfter, warnAfter) ) {
+                             redirectUrl: string, keepAliveUrl: string, logoutUrl: string): boolean {
+        const succeed = true;
+        if ( ! this.areValided(redirectAfter, warnAfter) ) {
         //     // tslint:disable-next-line:no-console
         //     console.error('Miss configuration, call to SessionTimeout with "redirectAfter" must be '
         //         + ' equal or greater than "warnAfter".');
-        //     return false;
-        // }
+            return false;
+        }
 
         this.redirectAfter = redirectAfter;
         this.warnAfter = warnAfter;
@@ -77,22 +85,40 @@ export class SessionTimeout {
         this.redirectUrl = redirectUrl;
         this.keepAliveUrl = keepAliveUrl;
         this.logoutUrl = logoutUrl;
-        let wantToContinue: boolean = false;
+        const wantToContinue: boolean = false;
+
         const interval = setInterval(() => {
             // tslint:disable-next-line:no-console
             console.log("\tcountdown: " + this.countdown);
             this.countdown--;
             this.warnAfter--;
 
+            // - Go to page that has timer:
+            //  http://localhost:8080/web/personalservices/firestonecompleteautocare/applynow
+            // - Wait for warning message (1 minute before expiration)
+            // - Warning message is displayed
+            // - User has the chance to click on the "extend" button and continue
+            // - If use does not extend session, then the red banner is displayed
+            // - After the red banner is displayed, the user is redirected to the home page:
+            //     /web/personalservices/personal-services?pp_timeout=true
+            // - A banner is displayed on the home page
+
             if ( this.warnAfter === 0 ) {
                 // tslint:disable-next-line:no-console
                 console.log("\tYou have reached the warning timeout. Time to show the popup!!! warnAfter ["
                     + this.warnAfter + "], countdown [" + this.countdown + "]");
                 // If continue resetCountdown, otherwise redirectUrl
-                // Continue
-                wantToContinue = true;
-                // tslint:disable-next-line:no-console
-                console.log("\tI want to continue...");
+                // Wait here to let the user click on Continue
+                //    Banner with button text=Continue onClick=sessionTimeout.setContinue(true);
+                //    Banner with button text=Exit onClick=sessionTimeout.setContinue(true);
+                //    Here
+                if ( this.getContinue() ) {
+                    // tslint:disable-next-line:no-console
+                    console.log("\tI want to continue... reset countdown from ["
+                        + this.countdown + "] to [" + redirectAfter  + "]");
+                    this.countdown = redirectAfter;
+                    this.warnAfter = warnAfter;
+                }
                 // if ( wantToContinue ) {
                 //     ejs.renderFile(__dirname + "\\..\\..\\views\\pages\\"
                 // + this.keepAliveUrl + ".ejs", function(err, data) {
@@ -114,6 +140,7 @@ export class SessionTimeout {
             }
 
         }, MILISECONDS);
+        return succeed;
     }
 
     public resetCountdown(value: number = REDIRECT_AFTER) {
