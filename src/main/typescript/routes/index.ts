@@ -35,8 +35,8 @@ export const register = (app: express.Application) => {
         response.render( "pages/countdown-timer" );
     });
 
-    app.get( "/countdown-callback", (request: any, response: any) => {
-        response.render( "pages/countdown-callback" );
+    app.get( "/custom-callback", (request: any, response: any) => {
+        response.render( "pages/custom-callback" );
     });
 
 };

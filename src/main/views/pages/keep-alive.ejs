@@ -8,15 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <% include ../scripts/scripts %>
 </head>
 
 <body>
     <div class="container">
-        <h1>Bootstrap-session-timeout</h1>
-        <h2>Dummy keep alive URL</h2>
+        <h1>Keep me on my page</h1>
+        <h2>Keep alive URL</h2>
         <hr>
-        <p>This would be your server-side URL to refresh user session.</p>
-        <% include ../scripts/scripts %>
+        <p>The URL that simulate the "refresh session".</p>
+
+        <a class="btn" href="/"><i class="material-icons right">arrow_backward</i>Back to Home page</a>
     </div>
 </body>
 

@@ -1,76 +1,128 @@
+import ejs from "ejs";
+import { dirname } from "path";
+
 const SECONDS: number = 60;
 const MILISECONDS: number = 1000;
-// Warning one minute before we reach timeout limit
-// It timeout=3 warning will be at LIMIT=TIMEOUT-WARNING
-
 // Limit of time allocated to the session
-const SESSION_TIME_LIMIT: number = 20;
-// Time before we reach the SESSION_TIME_LIMIT
-const THRESHOLD: number = 4; // Warning at 16 min
-// Time to reach to show the popup
-const WARNING: number = SESSION_TIME_LIMIT - THRESHOLD;
+const REDIRECT_AFTER: number = 20;
+// Time before we advice the customer by showing the popup
+const WARN_AFTER: number = 18; // REDIRECT_AFTER - THRESHOLD;
 const END_SESSION = 0;
 
 export class SessionTimeout {
-    private counter: number;
-    private sessionTimeout: number;
-    private threshold: number;
-    private warning: number;
+    private countdown: number;
+    private redirectAfter: number;
+    private warnAfter: number;
+    private redirectUrl: string;
+    private keepAliveUrl: string;
+    private logoutUrl: string;
 
     constructor() {
-        this.counter = SESSION_TIME_LIMIT;
-        this.sessionTimeout = SESSION_TIME_LIMIT;
-        this.threshold = THRESHOLD;
-        this.warning = WARNING;
+        this.countdown = REDIRECT_AFTER;
+        this.redirectAfter = REDIRECT_AFTER;
+        this.warnAfter = WARN_AFTER;
+        this.redirectUrl = "";
+        this.keepAliveUrl = "";
+        this.logoutUrl = "";
     }
 
-    public getSessionTimeout(): number {
-        return this.sessionTimeout;
+    public getCountdown(): number {
+        return this.countdown;
     }
-    public setSessionTimeout(value: number) {
-        this.sessionTimeout = value;
+    public getRedirectAfter(): number {
+        return this.redirectAfter;
     }
-    public getThreshold(): number {
-        return this.threshold;
+    public setRedirectAfter(value: number = REDIRECT_AFTER) {
+        this.redirectAfter = value;
     }
-    public setThreshold(value: number) {
-        this.threshold = value;
+    public getWarnAfter(): number {
+        return this.warnAfter;
     }
-    public getWarning(): number {
-        return this.warning;
+    public setWarnAfter(value: number = WARN_AFTER) {
+        this.warnAfter = value;
+    }
+    public getRedirectUrl(): string {
+        return this.redirectUrl;
+    }
+    public setRedirectUrl(value: string) {
+        this.redirectUrl = value;
+    }
+    public getKeepAliveUrl(): string {
+        return this.keepAliveUrl;
+    }
+    public setKeepAliveUrl(value: string) {
+        this.keepAliveUrl = value;
     }
 
-    public startSessionTimer(sessionTimeout: number, threshold: number) {
-        this.sessionTimeout = sessionTimeout;
-        this.threshold = threshold;
-        this.warning = sessionTimeout - threshold;
+    public getLogoutUrl(): string {
+        return this.logoutUrl;
+    }
+    public setLogoutUrl(value: string) {
+        this.logoutUrl = value;
+    }
 
+    public startSessionTimer(redirectAfter: number = REDIRECT_AFTER, warnAfter: number = WARN_AFTER,
+                             redirectUrl: string, keepAliveUrl: string, logoutUrl: string) {
+
+        // if ( ! this.areValided(redirectAfter, warnAfter) ) {
+        //     // tslint:disable-next-line:no-console
+        //     console.error('Miss configuration, call to SessionTimeout with "redirectAfter" must be '
+        //         + ' equal or greater than "warnAfter".');
+        //     return false;
+        // }
+
+        this.redirectAfter = redirectAfter;
+        this.warnAfter = warnAfter;
+        this.countdown = this.redirectAfter;
+        this.redirectUrl = redirectUrl;
+        this.keepAliveUrl = keepAliveUrl;
+        this.logoutUrl = logoutUrl;
+        let wantToContinue: boolean = false;
         const interval = setInterval(() => {
             // tslint:disable-next-line:no-console
-            console.log("counter: " + this.sessionTimeout);
-            this.sessionTimeout--;
+            console.log("\tcountdown: " + this.countdown);
+            this.countdown--;
+            this.warnAfter--;
 
-            if ( this.sessionTimeout === this.warning ) {
-                // clearInterval();
+            if ( this.warnAfter === 0 ) {
                 // tslint:disable-next-line:no-console
-                console.log("WARNING open popup!!! counter: " + this.sessionTimeout);
+                console.log("\tYou have reached the warning timeout. Time to show the popup!!! warnAfter ["
+                    + this.warnAfter + "], countdown [" + this.countdown + "]");
+                // If continue resetCountdown, otherwise redirectUrl
+                // Continue
+                wantToContinue = true;
+                // tslint:disable-next-line:no-console
+                console.log("\tI want to continue...");
+                // if ( wantToContinue ) {
+                //     ejs.renderFile(__dirname + "\\..\\..\\views\\pages\\"
+                // + this.keepAliveUrl + ".ejs", function(err, data) {
+                //         // tslint:disable-next-line:no-console
+                //         console.log(err || data);
+                //     });
+                // }
             }
-            if (this.sessionTimeout === END_SESSION) {
+            if (this.countdown === END_SESSION) {
                 clearInterval(interval);
                 // tslint:disable-next-line:no-console
-                console.log("Session timeout reached counter: " + this.sessionTimeout);
+                console.log("\tRedirect to logout: End session reached countdown = " + this.countdown);
+                // Call logout
+                // ejs.renderFile(__dirname + "\\..\\..\\views\\pages\\"
+                // + this.logoutUrl + ".ejs", function(err, data) {
+                //     // tslint:disable-next-line:no-console
+                //     console.log(err || data);
+                // });
             }
 
         }, MILISECONDS);
     }
 
-    public resetCounter(value: number = SESSION_TIME_LIMIT) {
+    public resetCountdown(value: number = REDIRECT_AFTER) {
         // tslint:disable-next-line:no-console
-        console.log("Reset counter: " + this.counter + " to " + value);
-        this.counter = value;
+        console.log("Reset countdown: " + this.countdown + " to " + value);
+        this.countdown = value;
     }
 
-    public getCounter(): number {
-        return this.counter;
+    public areValided(redirectAfter: number, warnAfter: number): boolean {
+        return redirectAfter >= warnAfter;
     }
 }

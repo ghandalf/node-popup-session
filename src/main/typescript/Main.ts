@@ -22,10 +22,13 @@ export class Main {
             console.log("Begin");
             const timeout = 20;
             const threshold = 2;
-            this.sessionTimeout.startSessionTimer(timeout, threshold);
-            this.sessionTimeout.resetCounter(14);
-            if (this.sessionTimeout.getCounter() > 12) {
-                this.sessionTimeout.resetCounter(10);
+            const redirectUrl = "/";
+            const keepAliveUrl = "/keep-alive";
+            const logoutUrl = "/timeout";
+            this.sessionTimeout.startSessionTimer(timeout, threshold, redirectUrl, keepAliveUrl, logoutUrl);
+            this.sessionTimeout.resetCountdown(14);
+            if (this.sessionTimeout.getCountdown() > 12) {
+                this.sessionTimeout.resetCountdown(10);
             }
         }
     }

@@ -8,17 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <% include ../scripts/scripts %>
 </head>
 
 <body>
     <div class="container">
-        <h1>Bootstrap-session-timeout</h1>
+        <h1>Session timeout</h1>
         <h2>Custom Callback</h2>
         <hr>
         <p>Shows an example of using custom callback functions for warning and redirect.</p>
         <div class="jumbotron" style="background: #398439;">
-            <h3>Session Status:</h3>
-            <p class="hidden" id="fine">Session is fine.</p>
+                <h3>Session Status:</h3>
+                <p class="hidden" id="fine">Session is fine.</p>
             <p class="hidden" id="warn">Warning: session will expire in less than 17 seconds.</p>
         </div>
 
@@ -43,7 +44,6 @@
         </pre>
 
         <a class="btn" href="/"><i class="material-icons right">arrow_backward</i>Back to Home page</a>
-        <% include ../scripts/scripts %>
     </div>
 
     <script>

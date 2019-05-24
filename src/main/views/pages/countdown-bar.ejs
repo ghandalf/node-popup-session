@@ -8,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <% include ../scripts/scripts %>
 </head>
 
 <body>
     <div class="container">
-        <h1>Bootstrap-session-timeout</h1>
+        <h1>Session timeout</h1>
         <h2>Countdown Timer</h2>
         <hr>
         <p>Shows the warning dialog with countdown bar after 3 seconds. If user takes no action (interacts with the page in any way), browser is redirected to redirUrl. On any user action (mouse, keyboard or touch) the timeout timer as well as the countdown
@@ -23,7 +24,7 @@
             $.sessionTimeout({
                 keepAliveUrl: '/keep-alive',
                 logoutUrl: '/login',
-                redirUrl: '/locked',
+                redirUrl: '/timeout',
                 warnAfter: 3000,
                 redirAfter: 10000,
                 countdownBar: true
@@ -31,14 +32,13 @@
         </pre>
 
         <a class="btn" href="/"><i class="material-icons right">arrow_backward</i>Back to Home page</a>
-        <% include ../scripts/scripts %>
     </div>
 
     <script>
         $.sessionTimeout({
             keepAliveUrl: '/keep-alive',
             logoutUrl: '/login',
-            redirUrl: '/locked',
+            redirUrl: '/timeout',
             warnAfter: 3000,
             redirAfter: 10000,
             countdownBar: true
