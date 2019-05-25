@@ -39,4 +39,11 @@ export const register = (app: express.Application) => {
         response.render( "pages/custom-callback" );
     });
 
+    app.get( "/banner", (request: any, response: any) => {
+        response.render( "pages/partials/banner" );
+    });
+
+    app.get( "/progress", (request: any, response: any) => {
+        response.render( "pages/partials/progress" );
+    });
 };

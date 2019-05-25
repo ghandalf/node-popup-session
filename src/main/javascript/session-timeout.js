@@ -40,34 +40,17 @@
             return false;
         }
         var warning_div = document.getElementById("warning");
+        var banner_div = document.getElementById("banner");
         // Unless user set his own callback function, prepare bootstrap modal elements and events
         if (typeof opt.onWarn !== 'function') {
             // If opt.countdownMessage is defined add a coundown timer message to the modal dialog
             var countdownMessage = opt.countdownMessage ?
                 '<p>' + opt.countdownMessage.replace(/{timer}/g, '<span class="countdown-holder"></span>') + '</p>' : '';
             var coundownBarHtml = opt.countdownBar ?
-                $(warning_div).load('partials/progress.html') : '';
+                $(warning_div).load('/progress') : '';
 
             // Create timeout warning dialog
-            $('body').append('<div class="modal fade" id="session-timeout-dialog"> \
-              <div class="modal-dialog"> \
-                <div class="modal-content"> \
-                  <div class="modal-header"> \
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
-                    <h4 class="modal-title">' + opt.title + '</h4> \
-                  </div> \
-                  <div class="modal-body"> \
-                    <p>' + opt.message + '</p> \
-                    ' + countdownMessage + ' \
-                    ' + coundownBarHtml + ' \
-                  </div> \
-                  <div class="modal-footer"> \
-                    <button id="session-timeout-dialog-logout" type="button" class="btn btn-default">' + opt.logoutButton + '</button> \
-                    <button id="session-timeout-dialog-keepalive" type="button" class="btn btn-primary" data-dismiss="modal">' + opt.keepAliveButton + '</button> \
-                  </div> \
-                </div> \
-              </div> \
-             </div>');
+            $('body').append($(banner_div).load('/banner'));
 
             // "Logout" button click
             $('#session-timeout-dialog-logout').on('click', function() {
