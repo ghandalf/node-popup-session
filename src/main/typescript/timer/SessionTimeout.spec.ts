@@ -19,12 +19,9 @@ describe("startSessionTimer", () => {
         const redirectUrl = "/";
         const keepAliveUrl = "/keep-alive";
         const logoutUrl = "/timeout";
-        let wantToContinue: boolean = false;
+        const wantToContinue: boolean = false;
         sessionTimeout.startSessionTimer(redirectAfter, warnAfter, redirectUrl, keepAliveUrl, logoutUrl);
-        expect(sessionTimeout.getContinue()).to.equal(wantToContinue);
-        wantToContinue = true;
-        sessionTimeout.setContinue(false);
-        expect(sessionTimeout.getCountdown()).to.equal(redirectAfter);
+        expect(sessionTimeout.getCountdown()).to.equal(warnAfter);
     });
 
     // it("startSessionTimer should show countdown", () => {
