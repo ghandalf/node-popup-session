@@ -1,6 +1,7 @@
 // import { ejs } from "ejs";
 import { dirname } from "path";
 import { Options } from "../domain/Options";
+import { exit } from "shelljs";
 
 // - Go to page that has timer:
 //  http://localhost:8080/web/personalservices/firestonecompleteautocare/applynow
@@ -25,7 +26,7 @@ export class SessionTimeout {
 
     constructor() {
         this.options = new Options();
-        this.countdown = this.options.getRedirectAfter();
+        this.countdown = Options.WARN_AFTER;
     }
 
     public getCountdown(): number {
@@ -36,11 +37,12 @@ export class SessionTimeout {
         redirectAfter: number = Options.REDIRECT_AFTER,
         warnAfter: number = Options.WARN_AFTER,
         redirectUrl: string, keepAliveUrl: string, logoutUrl: string): void {
-
+        
         if ( ! this.areValided(redirectAfter, warnAfter) ) {
-        //     // tslint:disable-next-line:no-console
-        //     console.error('Miss configuration, call to SessionTimeout with "redirectAfter" must be '
-        //         + ' equal or greater than "warnAfter".');
+            // tslint:disable-next-line:no-console
+            console.error('\tMiss configuration, call to SessionTimeout with "redirectAfter" must be '
+                + ' equal or greater than "warnAfter".');
+            return;
         }
 
         const interval = setInterval(() => {
@@ -49,10 +51,13 @@ export class SessionTimeout {
             this.countdown--;
 
             // if any move on the screen resetCounter to warnAfter
-            this.resetCountdown(warnAfter);
+            // this.resetCountdown(warnAfter);
 
             // countdown until 0 where we show the banner
             if (this.countdown === Options.END_SESSION ) {
+                // tslint:disable-next-line:no-console
+                console.log("\tYou have reached the warning timeout. Time to show the popup!!! warnAfter ["
+                    + warnAfter + "], countdown [" + this.countdown + "]");
                 // When we show the banner we don't reset the counter until decision
                 // In the banner show [continue] -> redirect to current page
                     // // tslint:disable-next-line:no-console
@@ -71,21 +76,18 @@ export class SessionTimeout {
                     //     //     console.log(err || data);
                     //     // });
                     // }
-                // tslint:disable-next-line:no-console
-                console.log("\tYou have reached the warning timeout. Time to show the popup!!! warnAfter ["
-                    + warnAfter + "], countdown [" + this.countdown + "]");
                 // If continue resetCountdown, otherwise redirectUrl
                 // Wait here to let the user click on Continue
                 //    Banner with button text=Continue onClick=sessionTimeout.setContinue(true);
                 //    Banner with button text=Exit onClick=sessionTimeout.setContinue(true);
             }
 
-        }, Options.MILISECONDS);
+        }, Options.MILISECONDS); // * Options.SECONDS);
     }
 
     public resetCountdown(value: number) {
         // tslint:disable-next-line:no-console
-        console.log("Reset countdown: " + this.countdown + " to " + value);
+        // console.log("\tReset countdown: " + this.countdown + " to " + value);
         this.countdown = value;
     }
 
