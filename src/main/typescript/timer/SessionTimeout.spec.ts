@@ -45,10 +45,19 @@ describe("startSessionTimer", () => {
         const redirectUrl: string = "/";
         const keepAliveUrl: string = "/keep-alive";
         const logoutUrl: string = "/timeout";
-        const expected: boolean = false;
         sessionTimeout.startSessionTimer(redirectAfter, warnAfter, redirectUrl, keepAliveUrl, logoutUrl);
         expect(EEXIST);
     });
+    it("startSessionTimer should exit when countdown === Options.END_SESSION and reach the warnAfter", () => {
+        const redirectAfter: number = 4;
+        const warnAfter: number = 3;
+        const redirectUrl: string = "/";
+        const keepAliveUrl: string = "/keep-alive";
+        const logoutUrl: string = "/timeout";
+        sessionTimeout.startSessionTimer(redirectAfter, warnAfter, redirectUrl, keepAliveUrl, logoutUrl);
+        expect(EEXIST);
+    });
+
     // it("startSessionTimer should show countdown", () => {
     //     const redirectAfter = 2;
     //     const warnAfter = 1;

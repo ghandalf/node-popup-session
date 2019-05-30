@@ -32,12 +32,17 @@ export class SessionTimeout {
     public getCountdown(): number {
         return this.countdown;
     }
+    public setCountdown(value: number) {
+        this.countdown = value;
+    }
 
     public startSessionTimer(
         redirectAfter: number = Options.REDIRECT_AFTER,
         warnAfter: number = Options.WARN_AFTER,
         redirectUrl: string, keepAliveUrl: string, logoutUrl: string): void {
         
+        this.setCountdown(warnAfter);
+
         if ( ! this.areValided(redirectAfter, warnAfter) ) {
             // tslint:disable-next-line:no-console
             console.error('\tMiss configuration, call to SessionTimeout with "redirectAfter" must be '
@@ -58,6 +63,8 @@ export class SessionTimeout {
                 // tslint:disable-next-line:no-console
                 console.log("\tYou have reached the warning timeout. Time to show the popup!!! warnAfter ["
                     + warnAfter + "], countdown [" + this.countdown + "]");
+                clearInterval(interval);
+                return;
                 // When we show the banner we don't reset the counter until decision
                 // In the banner show [continue] -> redirect to current page
                     // // tslint:disable-next-line:no-console
